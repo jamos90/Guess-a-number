@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TextInput, Button, TouchableWithoutFeedback, Ke
 import Card from '../components/Card';
 import Colours from '../constants/colours';
 import Input from '../components/input';
+import NumberContainer from '../components/NumberContainer';
 
 const StartGameScreen = props => {
 
@@ -11,7 +12,7 @@ const StartGameScreen = props => {
     const [selectedNumber,setSelectedNumber] = useState();
 
     const numberInputHandler = (inputText) => {
-        setEnteredValue(inputText.replace(/[^0-9]/g),'');
+        setEnteredValue(inputText.replace(/[^0-9]/g), '');
     }
 
     const resetInputHandler = ()=> {
@@ -20,7 +21,7 @@ const StartGameScreen = props => {
     }
 
     const confirmInputHandler = ()=> {
-        const chosenNumber =parseInt(enteredValue);
+        const chosenNumber = parseInt(enteredValue);
         if(isNaN(chosenNumber)|| chosenNumber <=0 || chosenNumber > 99) {
             Alert.alert('Invalid Number', 'Number has to be between 1 and 99', [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}])
             return;
@@ -28,6 +29,7 @@ const StartGameScreen = props => {
         setConfirmed(true);
         setSelectedNumber(parseInt(enteredValue));
         setEnteredValue('');
+        Keyboard.dismiss();
         
     }
 
@@ -36,7 +38,9 @@ const StartGameScreen = props => {
     if(confirmed) {
         confirmedOutput =
         <Card style={styles.summaryContainer}>
-            <Text>Chosen number: {selectedNumber}</Text>
+            <Text>You selected:</Text>
+            <NumberContainer>{selectedNumber}</NumberContainer>
+            <Button title="START GAME"/>
         </Card>
     }
 
@@ -98,7 +102,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     summaryContainer: {
-        marginTop: 20
+        marginTop: 20,
+        alignItems: "center"
     }
 });
 
